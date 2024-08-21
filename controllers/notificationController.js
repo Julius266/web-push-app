@@ -1,21 +1,48 @@
 const Subscriber = require('../models/Subscriber');
 const webPush = require('../config/webPush');
+const moment = require('moment-timezone');
+
+// Middleware para manejo de errores
+function errorHandler(err, res, customMessage) {
+    console.error(err.message);
+    res.status(500).json({ error: customMessage || 'Error en el servidor' });
+}
 
 exports.subscribe = async (req, res) => {
-    const { endpoint, keys, domain } = req.body;
+    const { endpoint, keys } = req.body;
+    const domain = req.headers.origin;
+    const subscriptionDate = moment().tz('America/Guayaquil').toDate(); // Cambia 'America/New_York' por tu zona horaria
+    const ipAddress = req.ip;
+    const userAgent = req.headers['user-agent'];
+
+    if (!endpoint || typeof endpoint !== 'string' || !keys || typeof keys !== 'object') {
+        return res.status(400).json({ error: 'Datos inválidos' });
+    }
+
     try {
-        const subscriber = new Subscriber({ endpoint, keys, domain });
+        const subscriber = new Subscriber({ 
+            endpoint, 
+            keys, 
+            domain, 
+            subscriptionDate, 
+            ipAddress, 
+            userAgent 
+        });
         await subscriber.save();
         res.status(201).json({ message: 'Subscribed successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to subscribe' });
+        errorHandler(error, res, 'Failed to subscribe');
     }
 };
-console.log('New Service Worker');
-
 
 exports.sendNotification = async (req, res) => {
     const { endpoint, title, body } = req.body;
+
+    if (!endpoint || typeof endpoint !== 'string' || 
+        !title || typeof title !== 'string' || 
+        !body || typeof body !== 'string') {
+        return res.status(400).json({ error: 'Datos inválidos' });
+    }
 
     const notificationPayload = JSON.stringify({
         title,
@@ -36,18 +63,15 @@ exports.sendNotification = async (req, res) => {
             res.status(404).json({ error: 'Suscripción no encontrada' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Error enviando notificación' });
+        errorHandler(error, res, 'Error enviando notificación');
     }
 };
 
-// Definir la función getSubscriptions
 exports.getSubscriptions = async (req, res) => {
     try {
         const subscribers = await Subscriber.find({});
         res.status(200).json(subscribers);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch subscriptions' });
+        errorHandler(error, res, 'Failed to fetch subscriptions');
     }
 };
-
-

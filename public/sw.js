@@ -1,17 +1,18 @@
-console.log('Service Worker')
+
 
 self.addEventListener('push', e => {
     const data = e.data.json();
-    console.log(data)
     self.registration.showNotification(data.title, {
         body: data.body,
-        icon: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTnKvQE0xOyMLhnfmhBRZbUXkmQWmlTTMGPUABNn7bNs9XYRi1W',
+        icon: data.icon || 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTnKvQE0xOyMLhnfmhBRZbUXkmQWmlTTMGPUABNn7bNs9XYRi1W',
         data: {
-            url: data.url
+            url: data.url || 'http://localhost:5000/' // URL por defecto a tu página principal
         }
-    })
-})
+    });
+});
 
+
+console.log('Service Worker')
 
 self.addEventListener('notificationclick', function(event) {
     event.notification.close();
