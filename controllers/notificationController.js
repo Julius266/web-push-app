@@ -9,9 +9,11 @@ function errorHandler(err, res, customMessage) {
 }
 
 exports.subscribe = async (req, res) => {
-    const { endpoint, keys } = req.body;
+    console.log(req.body); // Para verificar qué datos se están recibiendo
+
+    const { endpoint, keys, location } = req.body;
     const domain = req.headers.origin;
-    const subscriptionDate = moment().tz('America/Guayaquil').toDate(); // Cambia 'America/New_York' por tu zona horaria
+    const subscriptionDate = moment().tz('America/Guayaquil').toDate();
     const ipAddress = req.ip;
     const userAgent = req.headers['user-agent'];
 
@@ -26,12 +28,22 @@ exports.subscribe = async (req, res) => {
             domain, 
             subscriptionDate, 
             ipAddress, 
-            userAgent 
+            userAgent,
+            location // Guardar la ubicación
         });
         await subscriber.save();
         res.status(201).json({ message: 'Subscribed successfully' });
     } catch (error) {
         errorHandler(error, res, 'Failed to subscribe');
+    }
+};
+
+exports.getSubscriptions = async (req, res) => {
+    try {
+        const subscribers = await Subscriber.find({});
+        res.status(200).json(subscribers);
+    } catch (error) {
+        errorHandler(error, res, 'Failed to fetch subscriptions');
     }
 };
 
@@ -67,11 +79,3 @@ exports.sendNotification = async (req, res) => {
     }
 };
 
-exports.getSubscriptions = async (req, res) => {
-    try {
-        const subscribers = await Subscriber.find({});
-        res.status(200).json(subscribers);
-    } catch (error) {
-        errorHandler(error, res, 'Failed to fetch subscriptions');
-    }
-};

@@ -1,5 +1,3 @@
-
-
 self.addEventListener('push', e => {
     const data = e.data.json();
     self.registration.showNotification(data.title, {
@@ -11,8 +9,7 @@ self.addEventListener('push', e => {
     });
 });
 
-
-console.log('Service Worker')
+console.log('Service Worker registrado');
 
 self.addEventListener('notificationclick', function(event) {
     event.notification.close();

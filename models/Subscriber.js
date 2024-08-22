@@ -9,7 +9,11 @@ const SubscriberSchema = new mongoose.Schema({
     domain: { type: String },
     subscriptionDate: { type: Date, default: Date.now },
     ipAddress: { type: String },
-    userAgent: { type: String }
+    userAgent: { type: String },
+    location: { 
+        latitude: { type: Number },
+        longitude: { type: Number }
+    }
 });
 
 module.exports = mongoose.model('Subscriber', SubscriberSchema);
