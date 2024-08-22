@@ -147,6 +147,15 @@ async function loadSubscriptions() {
             const domainCell = document.createElement('td');
             domainCell.textContent = sub.domain;
 
+            const latitudeCell = document.createElement('td');
+            latitudeCell.textContent = sub.location?.latitude || 'N/A';
+
+            const longitudeCell = document.createElement('td');
+            longitudeCell.textContent = sub.location?.longitude || 'N/A';
+
+            const userAgentCell = document.createElement('td');
+            userAgentCell.textContent = sub.userAgent || 'N/A';
+
             const actionCell = document.createElement('td');
             const button = document.createElement('button');
             button.textContent = 'Enviar Notificación';
@@ -155,6 +164,9 @@ async function loadSubscriptions() {
             actionCell.appendChild(button);
             row.appendChild(endpointCell);
             row.appendChild(domainCell);
+            row.appendChild(latitudeCell);
+            row.appendChild(longitudeCell);
+            row.appendChild(userAgentCell);
             row.appendChild(actionCell);
 
             tableBody.appendChild(row);
@@ -163,6 +175,7 @@ async function loadSubscriptions() {
         console.error('Error al cargar suscripciones:', error);
     }
 }
+
 
 async function sendNotification(endpoint) {
     try {
@@ -185,3 +198,6 @@ async function sendNotification(endpoint) {
 }
 
 loadSubscriptions();
+
+
+
