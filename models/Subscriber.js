@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Definir el esquema para los suscriptores
 const SubscriberSchema = new mongoose.Schema({
   endpoint: { type: String, required: true },
   keys: {
@@ -16,4 +17,4 @@ const SubscriberSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Subscriber", SubscriberSchema);
+module.exports = mongoose.model("Subscriber", SubscriberSchema); // Exportar el modelo de suscriptor

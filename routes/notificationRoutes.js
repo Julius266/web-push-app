@@ -3,13 +3,14 @@ const {
   getSubscriptions,
   subscribe,
   sendNotification,
-  deleteSubscription
+  deleteSubscription,
 } = require("../controllers/notificationController");
 const router = express.Router();
 
-router.get("/subscriptions", getSubscriptions);
-router.post("/subscribe", subscribe);
-router.post("/send", sendNotification);
-router.delete('/unsubscribe', deleteSubscription); 
+// Definir rutas para las operaciones de notificaciones
+router.get("/subscriptions", getSubscriptions); // Obtener todas las suscripciones
+router.post("/subscribe", subscribe); // Suscribir un nuevo cliente
+router.post("/send", sendNotification); // Enviar una notificación
+router.delete("/unsubscribe", deleteSubscription); // Eliminar una suscripción
 
-module.exports = router;
+module.exports = router; // Exportar las rutas de notificaciones
