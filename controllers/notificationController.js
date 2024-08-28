@@ -56,7 +56,7 @@ exports.getSubscriptions = async (req, res) => {
 };
 
 exports.sendNotification = async (req, res) => {
-  const { endpoint, title, body, url } = req.body;
+  const { endpoint, title, body, url, image } = req.body; // Asegúrate de que la solicitud incluya la URL de la imagen
 
   if (
     !endpoint ||
@@ -70,12 +70,14 @@ exports.sendNotification = async (req, res) => {
   }
 
   const finalUrl = url || "https://sistemasgenesis.com.ec/"; // URL predeterminada
+  const finalImage = image || "/genesisbanner.jpg"; // URL del banner predeterminada
 
   const notificationPayload = JSON.stringify({
     title,
     body,
     url: finalUrl,
-    icon: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTnKvQE0xOyMLhnfmhBRZbUXkmQWmlTTMGPUABNn7bNs9XYRi1W",
+    image: finalImage, // Agrega la imagen como banner
+    icon: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTnKvQE0xOyMLhnfmhBRZbUXkmQWmlTTMGPUABNn7bNs9XYRi1W", // Dejar vacío o usar una imagen transparente para no mostrar un ícono
   });
 
   try {
@@ -93,6 +95,7 @@ exports.sendNotification = async (req, res) => {
         title,
         body,
         url: finalUrl,
+        image: finalImage, // Almacenar la imagen si es necesario
         domain: subscriber.domain,
         sentAt: new Date(),
       });
@@ -107,6 +110,7 @@ exports.sendNotification = async (req, res) => {
     res.status(500).json({ error: "Error enviando notificación" });
   }
 };
+
 
 exports.deleteSubscription = async (req, res) => {
   const { endpoint } = req.body;

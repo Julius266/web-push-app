@@ -13,7 +13,7 @@ app.use(cors());
 
 // Middlewares
 app.use(express.json());
-app.use(express.static("public"));
+
 
 // Rutas
 app.use("/api/notifications", notificationRoutes);
