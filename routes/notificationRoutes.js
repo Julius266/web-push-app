@@ -13,4 +13,4 @@ router.post("/subscribe", subscribe); // Suscribir un nuevo cliente
 router.post("/send", sendNotification); // Enviar una notificación
 router.delete("/unsubscribe", deleteSubscription); // Eliminar una suscripción
 
-module.exports = router; // Exportar las rutas de notificaciones
+module.exports = router;
