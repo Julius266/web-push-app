@@ -1,8 +1,20 @@
 const mongoose = require('mongoose');
 
+// Definir el esquema para las visitas
 const visitSchema = new mongoose.Schema({
-    url: String,
-    timestamp: { type: Date, default: Date.now }
+    domain: {
+        type: String,
+        required: true
+    },
+    visitedPages: {
+        type: [String],
+        required: true
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-module.exports = mongoose.model('Visit', visitSchema);
+// Exportar el esquema como un modelo de Mongoose
+module.exports = visitSchema;

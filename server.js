@@ -4,6 +4,7 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const analyticsRouter = require("./routes/analyticsRoutes"); // Importa las rutas de analytics
 require("dotenv").config();
 const cors = require("cors");
+const cookieParser = require("cookie-parser"); // Importa cookie-parser
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 // Middlewares
 app.use(express.json());
+app.use(cookieParser()); // Configura cookie-parser
 
 // Rutas
 app.use("/api/notifications", notificationRoutes);
