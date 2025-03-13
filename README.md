@@ -1,4 +1,4 @@
-# Notificaciones Push para Génesis
+# Notificaciones Push 
 
 Este proyecto es una aplicación web desarrollada con javascript en node.js que permite al administrador enviar notificaciones usuarios que acepten las notificaciones del sitio.
 
